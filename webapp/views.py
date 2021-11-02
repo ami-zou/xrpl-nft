@@ -22,11 +22,16 @@ def today(request):
 
 def create(request):
     
-    if request.method == 'POST':
+    if request.method == 'POST'  and request.FILES['file']:
         form = UploadFileForm(request.POST,request.FILES)
         if form.is_valid():
-            form.save()
-            return HttpResponse('The file is saved and will now be used to create an NFT on XRPL')
+            file = form.save(commit=False)
+            file.file = request.FILES['file']
+
+            # handles the xrp generation
+            file.save()
+            mintNFT(file)
+            return render(request, "generate.html", {'file' : file})
     else:
         form = UploadFileForm()
         context = {
@@ -36,3 +41,7 @@ def create(request):
     #return render(request, 'books_website/UploadBook.html', context)
 
     return render(request, "create.html", context)
+
+def mintNFT(file):
+    #console.log()
+    HttpResponse('The file is saved and will now be used to create an NFT on XRPL')

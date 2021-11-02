@@ -1,0 +1,14 @@
+<html>
+   
+   <body>
+      <p>Details for {{file.title}}</p>
+      <!-- <img src="localhost:8080{{file.file.url}}" class="image_responsive" > -->
+
+      <!-- {% csrf_token %} -->
+      <!-- <iframe src="{{file.file.url}}" style="width: 100%;height: 100%;border: none;"></iframe> -->
+      <embed src="{{file.file.url}}" type="application/pdf"   height="100%" width="100%"> 
+        <!-- or try 700 and 500 -->
+      <p>{{ file.file.url }}</p>
+   </body>
+   
+</html>
