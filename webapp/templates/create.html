@@ -1,0 +1,15 @@
+<html>
+   
+   <body>
+      <h1>Create NFT on XRPL<h1>
+      
+      <form method ='post' enctype ="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}} <!-- or remove the .as_p thing-->
+        <input type="submit" value = "Submit"> <!-- or use button instead-->
+      </form>
+    
+   </body>
+   
+  
+</html>

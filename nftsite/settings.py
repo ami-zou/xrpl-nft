@@ -26,7 +26,7 @@ SECRET_KEY = '=s1tgebiw*4fzz@5^^6+-o_0cr5c@zh54s&j68z=w=#+0sy&s9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -53,12 +53,16 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'nftsite.urls'
 
-TEMPLATE_DIR= os.path.join(BASE_DIR, "webapp" , 'templates')
+WEBAPP_ROOT = os.path.join(BASE_DIR, 'webapp')
+WEBAPP_TEMPLATE_DIR= os.path.join(WEBAPP_ROOT, 'templates')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR],
+        'DIRS': [WEBAPP_TEMPLATE_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
