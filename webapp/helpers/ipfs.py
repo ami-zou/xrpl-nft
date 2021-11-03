@@ -31,18 +31,24 @@ def write_metadata(file):
         logging.info(collectible_metadata)
 
         img_uri = None
+        img_hash = None
         # Upload image to IPFS and return the URI
-        img_uri = upload_to_ipfs("." + filepath)
-        collectible_metadata["image"] = img_uri
-        data.ipfs_uri = img_uri
+        # TODO: might throw an error here when UPLOAD_IPS is disabled
+        img_hash, img_uri = upload_to_ipfs("." + filepath)
+        collectible_metadata["file_hash"] = img_hash
+        collectible_metadata["file_uri"] = img_uri
+        #data.file_uri = img_uri
         logging.info(collectible_metadata)
 
         # Write to metada file
         with open(metadata_filename, "w") as file:
             json.dump(collectible_metadata, file)
             
-        metadata_uri = upload_to_ipfs(metadata_filename)
-        collectible_metadata["metadata"] = metadata_uri
+        meta_hash = None
+        metadata_uri = None
+        meta_hash, metadata_uri = upload_to_ipfs(metadata_filename)
+        collectible_metadata["metadata_uri"] = metadata_uri
+        collectible_metadata["metadata_hash"] = meta_hash
         
         # TODO: find a better way to overwrite
         with open(metadata_filename, "w") as file:
@@ -51,9 +57,15 @@ def write_metadata(file):
 
     with open(metadata_filename) as f:
         collectible_metadata = json.load(f)
-        data.ipfs_uri = collectible_metadata["image"]
-        data.metadata_uri = collectible_metadata["metadata"]
-        data.collectible_metadata = collectible_metadata
+        data.file_uri = collectible_metadata["file_uri"]
+        data.file_hash = collectible_metadata["file_hash"]
+        data.metadata_uri = collectible_metadata["metadata_uri"]
+        data.metadata_hash = collectible_metadata["metadata_hash"]
+        # print(type(collectible_metadata))
+        data_str = json.dumps(collectible_metadata)
+        # print(type(data_str))
+        data.collectible_metadata = data_str
+        # print(data.collectible_metadata)
         
     return data
     
@@ -81,6 +93,7 @@ def upload_to_ipfs(filePath):
         logging.info("ipfs_hash "+ ipfs_hash)
         logging.info("filename "+ filename)
         uri = "https://ipfs.io/ipfs/{}?filename={}".format(ipfs_hash, filename)
-        return uri
+        logging.info(uri)
+        return ipfs_hash, uri
     
     # return None

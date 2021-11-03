@@ -9,9 +9,10 @@
       <embed src="{{data.file.url}}" type="application/pdf"   height="300" width="300"> 
         <!-- or try 700 and 500, or 100% -->
       <p>local URI: {{ data.file.url }}</p>
-      <p>IPFS Image URI: {{ data.ipfs_uri }}</p>
+      <p>IPFS Image hash: {{ data.file_hash }}</p>
+      <p>IPFS Image URI: {{ data.file_uri }}</p>
       <p>IPFS Metadata URI: {{ data.metadata_uri }}</p>
-      <p>Metadata: {{ data.collectibale_metadata }}</p>
+      <p>Metadata: {{ data.collectible_metadata }}</p>
    </body>
    
 </html>
