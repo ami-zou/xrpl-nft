@@ -1,14 +1,17 @@
 <html>
    
    <body>
-      <p>Details for {{file.title}}</p>
+      <p>Details for {{data.title}}</p>
       <!-- <img src="localhost:8080{{file.file.url}}" class="image_responsive" > -->
 
       <!-- {% csrf_token %} -->
       <!-- <iframe src="{{file.file.url}}" style="width: 100%;height: 100%;border: none;"></iframe> -->
-      <embed src="{{file.file.url}}" type="application/pdf"   height="100%" width="100%"> 
-        <!-- or try 700 and 500 -->
-      <p>{{ file.file.url }}</p>
+      <embed src="{{data.file.url}}" type="application/pdf"   height="300" width="300"> 
+        <!-- or try 700 and 500, or 100% -->
+      <p>local URI: {{ data.file.url }}</p>
+      <p>IPFS Image URI: {{ data.ipfs_uri }}</p>
+      <p>IPFS Metadata URI: {{ data.metadata_uri }}</p>
+      <p>Metadata: {{ data.collectibale_metadata }}</p>
    </body>
    
 </html>
