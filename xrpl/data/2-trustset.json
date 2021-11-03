@@ -3,8 +3,8 @@
     "Account": "rJwEwKCjxVcGCbb6a4z8obEsGQxMUj2VFg",
     "Flags": 131072,
     "LimitAmount": {
-      "currency": "fd5fce11f002fea1dcc4c8aa492a1ae68590b4d5",
+      "currency": "FD5FCE11F002FEA1DCC4C8AA492A1AE68590B4D5",
       "issuer": "rHBdNmoeV4pD1oXCFrAf1VF4bjK7jSfCEK",
       "value": "1000000000000000e-96"
     }
-  }
+}
