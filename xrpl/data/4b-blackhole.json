@@ -1,0 +1,6 @@
+{ 
+    "TransactionType": "AccountSet",
+    "Account" : "rHBdNmoeV4pD1oXCFrAf1VF4bjK7jSfCEK",
+    "Fee": "12",
+    "SetFlag": 4
+  }

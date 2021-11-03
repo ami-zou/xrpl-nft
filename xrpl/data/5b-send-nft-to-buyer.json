@@ -1,0 +1,10 @@
+{
+    "TransactionType": "Payment",
+    "Account": "rReceivingHotWallet...",
+    "Destination": "rFriendToReceiveNFT...",
+    "Amount": {
+      "currency": "4D5920415745534F4D45204E465420F09F8E8921",
+      "issuer": "rIssuingAccount...",
+      "value": "1000000000000000e-96"
+    }
+  }

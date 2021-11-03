@@ -1,0 +1,10 @@
+{
+    "TransactionType": "TrustSet",
+    "Account": "rFriendToReceiveNFT...",
+    "Flags": 131072,
+    "LimitAmount": {
+      "currency": "fd5fce11f002fea1dcc4c8aa492a1ae68590b4d5",
+        "issuer": "rIssuingAccount...",
+        "value": "1000000000000000e-96"
+    }
+  }

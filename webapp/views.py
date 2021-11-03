@@ -5,6 +5,7 @@ import logging
 from .forms import *
 from .models import *
 from webapp.helpers import ipfs
+from webapp.helpers import xrpl
 
 # Create your views here.
 
@@ -37,9 +38,11 @@ def create(request):
             logging.info('The file is saved and will now be used to create an NFT on XRPL')
             # STEP ONE: write metadata (both img link and desc) to IPFS
             file.ipfs_uri = "Not set"
+            file.metadata_uri = "Not set"
             data = ipfs.write_metadata(file)
 
             # STEP TWO: mint XRP NFT
+            data = xrpl.mint_nft(data)
             return render(request, "generate.html", {'data' : data})
     else:
         form = UploadFileForm()
