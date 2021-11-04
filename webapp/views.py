@@ -45,7 +45,7 @@ def create(request):
 
             # STEP TWO: mint XRP NFT
             # TODO: figure out how to do this
-            # data = xrpl.mint_nft(data)
+            data = xrpl.mint_nft(data)
             return render(request, "generate.html", {'data' : data})
     else:
         form = UploadFileForm()

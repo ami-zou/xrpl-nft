@@ -35,15 +35,15 @@ def mint_nft(data):
     # STEP ONE: Get credentials from the Testnet Faucet --------------------------------------
     # For production, instead create a Wallet instance
     faucet_url = "https://faucet.altnet.rippletest.net/accounts"
-    print("\nGetting 2 new accounts from the Testnet faucet...")
+    print("\nGetting new issuer and distributer accounts from the Testnet faucet...")
     cold_wallet = generate_faucet_wallet(client, debug=True)
     issuer_addr = cold_wallet.classic_address
     issuer_explorer = get_explorer_addr(issuer_addr)
-    print(f"cold/issuer wallet classic address {cold_wallet.classic_address}, seed {cold_wallet.seed}, and sequence {cold_wallet.sequence}")
+    print(f"Issuer wallet classic address {cold_wallet.classic_address}, seed {cold_wallet.seed}, and sequence {cold_wallet.sequence}")
     hot_wallet = generate_faucet_wallet(client, debug=True)
     distributor_addr = hot_wallet.classic_address
     distributor_explorer = get_explorer_addr(distributor_addr)
-    print(f"hot/distributer wallet classic address {hot_wallet.classic_address}, seed {hot_wallet.seed}, and sequence {hot_wallet.sequence}")
+    print(f"Distributer wallet classic address {hot_wallet.classic_address}, seed {hot_wallet.seed}, and sequence {hot_wallet.sequence}")
 
 
     # Configure issuer (cold address) settings -------------------------------------
@@ -59,7 +59,7 @@ def mint_nft(data):
         wallet=cold_wallet,
         client=client,
     )
-    print("\nSending issuer/cold address AccountSet transaction...")
+    print("\nSending issuer address AccountSet transaction...")
     response = xrpl.transaction.send_reliable_submission(cst_prepared, client)
     print(response)
 
@@ -74,7 +74,7 @@ def mint_nft(data):
         wallet=hot_wallet,
         client=client,
     )
-    print("\nSending distributer/hot address AccountSet transaction...")
+    print("\nSending distributor address AccountSet transaction...")
     response = xrpl.transaction.send_reliable_submission(hst_prepared, client)
     print(response)
 
@@ -94,7 +94,7 @@ def mint_nft(data):
         wallet=hot_wallet,
         client=client,
     )
-    print("\nCreating trust line from hot/distributer address to issuer...")
+    print("\nCreating trust line from distributer address to issuer...")
     response = xrpl.transaction.send_reliable_submission(ts_prepared, client)
     print(response)
 
@@ -130,14 +130,14 @@ def mint_nft(data):
 
 
     # Check balances ---------------------------------------------------------------
-    print("\nGetting hot/distributer address balances...")
+    print("\nGetting distributer address balances...")
     response = client.request(xrpl.models.requests.AccountLines(
         account=hot_wallet.classic_address,
         ledger_index="validated",
     ))
     print(response)
 
-    print("\nGetting cold/sender address balances...")
+    print("\nGetting issuer address balances...")
     response = client.request(xrpl.models.requests.GatewayBalances(
         account=cold_wallet.classic_address,
         ledger_index="validated",

@@ -7,6 +7,8 @@
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
       <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"  crossorigin="anonymous" /> -->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" crossorigin="anonymous" />
+
+      <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
    </head>
 
    <body style="margin: 2rem;">
@@ -34,14 +36,15 @@
 
       <!-- <button><a href="/create/mint">Mint NFT</a></button> -->
 
-      <h3>Looks good? Let's mint the NFT</h3>
+      <!-- <h3>Looks good? Let's mint the NFT</h3>
       {% csrf_token %}
-      <input type="submit" value="Mint NFT" onclick="submit()">
+      <input type="submit" value="Mint NFT" onclick="submit()"> -->
+
       <script type="text/javascript">
          function submit() {
             var data = JSON.parse("{{data.collectible_metadata|escapejs}}");
             console.log("Mint NFT button clicked with data ", data);
-            console.log(typeof data);
+            //console.log(typeof data);
             
             // TODO: instead of redirect: append the data
             //window.location.replace('http://127.0.0.1:8000/create/mint');
@@ -58,40 +61,51 @@
 
             //=======
 
-            var xhttp = new XMLHttpRequest();
+            // var xhttp = new XMLHttpRequest();
             
-            xhttp.open("POST", "http://localhost:5000/nft", true);
+            // xhttp.open("POST", "http://localhost:5000/nft", true);
 
-            xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-            xhttp.setRequestHeader("Accept", "application/json");
+            // xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+            // xhttp.setRequestHeader("Accept", "application/json");
 
-            xhttp.onreadystatechange = function() {
-               if (xhttp.readyState === 4 && xhttp.status === 200) {
-                  // document.getElementById("demo").innerHTML = this.responseText;
-                  alert(xhttp.response);
-                  console.log(xhttp.responseText);
-               } else {
-                  console.log("Minting NFT...");
-               }
-            };
+            // xhttp.onreadystatechange = function() {
+            //    if (xhttp.readyState === 4 && xhttp.status === 200) {
+            //       // document.getElementById("demo").innerHTML = this.responseText;
+            //       alert(xhttp.response);
+            //       console.log(xhttp.responseText);
+            //    } else {
+            //       console.log("Minting NFT...");
+            //    }
+            // };
 
-            console.log(typeof data);
+            // console.log("data type", typeof(data));
 
-            xhttp.send(data);
+            // var data_str = `{
+            //    "Id": 78912,
+            //    "Customer": "Jason Sweet",
+            //    "Quantity": 1,
+            //    "Price": 18.00
+            //    }`;
 
-            // $.ajax({
-            //       url: 'http://localhost:5000/nft',
-            //       type: 'POST',
-            //       data: data,
-            //       success: function (response) {
-            //          console.log("flask successfully processed the mint NFT request")
-            //          console.log(response)
-            //       },
-            //       error: function (response) {
-            //          console.log("flask failed to process the mint NFT request")
-            //          console.log(response)
-            //       }
-            // });
+            // console.log("data_str type", typeof(data_str));
+            // xhttp.send(data_str);
+
+            $.ajax({
+                  url: 'http://localhost:5000/nft',
+                  type: 'POST',
+                  data: data,
+                  dataType: 'jsonp',
+                  // contentType: 'application/json;charset=UTF-8',
+                  success: function (response) {
+                     console.log("flask successfully processed the mint NFT request")
+                     console.log(response)
+                     alert(response);
+                  },
+                  error: function (response) {
+                     console.log("flask failed to process the mint NFT request")
+                     console.log(response)
+                  }
+            });
          }
      
      </script>
