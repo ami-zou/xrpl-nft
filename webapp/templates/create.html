@@ -20,14 +20,16 @@
    <div style="display: flex;
    justify-content: center;
    flex-direction: column;
-   align-items: center;">
+   align-items: center;
+   margin: 2rem;">
       <h1 class="title">Create NFT on XRPL</h1>
       <h2 class="subtitle">Add details for your NFT</h2>
-      <form method='post' enctype="multipart/form-data">
+      <form method='post' enctype="multipart/form-data" style="    display: flex;
+      flex-direction: column;">
          {% csrf_token %}
-         {{form.as_p}}
+         {{form}}
          <!-- or remove the .as_p thing-->
-         <input type="submit" value="Upload file" class="button **is-large is-success is-focused is-rounded**">
+         <input type="submit" value="Upload file" class="button **is-large is-success is-focused is-rounded**" style="margin-top: 0.8rem;">
          <!-- or use button instead-->
       </form>
    </div>

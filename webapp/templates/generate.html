@@ -15,18 +15,18 @@
 
       <!-- {% csrf_token %} -->
       <!-- <iframe src="{{file.file.url}}" style="width: 100%;height: 100%;border: none;"></iframe> -->
-      <embed src="{{data.file.url}}" type="application/pdf"   height="300" width="300"> 
+      <img src="{{data.file.url}}" height="300" width="300"> 
       <!-- <iframe class="responsive-iframe" src="{{data.file.url}}"></iframe> -->
         <!-- or try 700 and 500, or 100% -->
 
       <section class = "ipfs_details">
-         <p><a href="{{ data.file.url }}">local Image URI:</a></p>
-         <h2 class="subtitle" style="margin-top: 0.8rem;"><b>IPFS Details:</b></h2>
+         <!-- <p><a href="{{ data.file.url }}">local Image URI:</a></p> -->
+         <h2 class="subtitle" style="margin-top: 0.8rem; margin-bottom:0.4rem;"><b>IPFS Details:</b></h2>
          <p>IPFS Image hash: {{ data.file_hash }}</p>
          <!-- <p>IPFS Image URI: {{ data.file_uri }}</p> -->
-         <p><a href="{{ data.file_uri }}">IPFS Image URI</a> ({{ data.file_uri }})</p>
-         <p><a href="{{ data.metadata_uri }}">IPFS Metadata URI</a> ({{ data.metadata_uri }})</p>
-         <h2 class="subtitle" style="margin-top: 0.8rem;"><b>Metadata:</b></h2>
+         <p>IPFS Image URI: <a href="{{ data.file_uri }}">{{ data.file_uri }}</a></p>
+         <p>IPFS Metadata URI: <a href="{{ data.metadata_uri }}">{{ data.metadata_uri }}</a></p>
+         <h2 class="subtitle" style="margin-top: 0.8rem; margin-bottom:0.4rem;"><b>Metadata:</b></h2>
          <p><pre>{{ data.collectible_metadata }}</pre></p>
       </section>
 
@@ -97,7 +97,7 @@
      </script>
 
      <section class="nft_details" id="result">
-      <h2 class="subtitle" style="margin-top: 0.8rem;"><b>Minted NFT Details:</b></h2>
+      <h2 class="subtitle" style="margin-top: 1rem; margin-bottom:0.4rem;"><b>Minted NFT Details:</b></h2>
       <p>Issuer addr: {{ data.issuer_addr }}</p>
       <p><a href="{{ data.issuer_explorer }}">explorer link</a>  ( {{ data.issuer_explorer }} )</p>
       
