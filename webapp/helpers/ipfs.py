@@ -62,7 +62,7 @@ def write_metadata(file):
         data.metadata_uri = collectible_metadata["metadata_uri"]
         data.metadata_hash = collectible_metadata["metadata_hash"]
         # print(type(collectible_metadata))
-        data_str = json.dumps(collectible_metadata)
+        data_str = json.dumps(collectible_metadata, indent=2, sort_keys=True)
         # print(type(data_str))
         data.collectible_metadata = data_str
         # print(data.collectible_metadata)

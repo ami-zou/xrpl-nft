@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'webapp',
+    'flask'
 ]
 
 MIDDLEWARE = [
@@ -131,3 +132,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # x_frame_options so that embeded cross site is allowed
 X_FRAME_OPTIONS = 'ALLOWALL'
 XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']
+
+CORS_ORIGIN_ALLOW_ALL = True

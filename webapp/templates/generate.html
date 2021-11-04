@@ -5,11 +5,12 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>XRP NFT Creation</title>
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+      <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"  crossorigin="anonymous" /> -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" crossorigin="anonymous" />
    </head>
 
-   <body>
-      <h2>Details for {{data.title}}</h2>
+   <body style="margin: 2rem;">
+      <h2 class="title">Details for {{data.title}}</h2>
       <!-- <img src="localhost:8080{{file.file.url}}" class="image_responsive" > -->
 
       <!-- {% csrf_token %} -->
@@ -20,13 +21,13 @@
 
       <section class = "ipfs_details">
          <p><a href="{{ data.file.url }}">local Image URI:</a></p>
-         <h3><b>IPFS Details</b></h3>
+         <h2 class="subtitle" style="margin-top: 0.8rem;"><b>IPFS Details:</b></h2>
          <p>IPFS Image hash: {{ data.file_hash }}</p>
          <!-- <p>IPFS Image URI: {{ data.file_uri }}</p> -->
          <p><a href="{{ data.file_uri }}">IPFS Image URI</a> ({{ data.file_uri }})</p>
          <p><a href="{{ data.metadata_uri }}">IPFS Metadata URI</a> ({{ data.metadata_uri }})</p>
-         <h3><b>Metadata:</b> </h3>
-         <p>{{ data.collectible_metadata }}</p>
+         <h2 class="subtitle" style="margin-top: 0.8rem;"><b>Metadata:</b></h2>
+         <p><pre>{{ data.collectible_metadata }}</pre></p>
       </section>
 
       <!-- <input type="submit" value = "Mint NFT"> or use button instead -->
@@ -39,43 +40,64 @@
       <script type="text/javascript">
          function submit() {
             var data = JSON.parse("{{data.collectible_metadata|escapejs}}");
-            console.log("Mint NFT button clicked with data ", data)
-            window.location.replace('http://127.0.0.1:8000/create/mint');
+            console.log("Mint NFT button clicked with data ", data);
+            console.log(typeof data);
+            
             // TODO: instead of redirect: append the data
+            //window.location.replace('http://127.0.0.1:8000/create/mint');
 
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function () {
-               if (xhr.readyState === 4) {
-                  alert(xhr.response);
-               }
-            }
-            xhr.open('POST', 'http://127.0.0.1:8000/create/mint', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-            xhr.send(data);
+            // var xhr = new XMLHttpRequest();
+            // xhr.onreadystatechange = function () {
+            //    if (xhr.readyState === 4) {
+            //       alert(xhr.response);
+            //    }
+            // }
+            // xhr.open('POST', 'http://127.0.0.1:8000/create/mint', true);
+            // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+            // xhr.send(data);
 
             //=======
 
-            const name = document.getElementById("name_").innerHTML
+            var xhttp = new XMLHttpRequest();
+            
+            xhttp.open("POST", "http://localhost:5000/nft", true);
 
-            $.ajax({
-                  url: 'http://localhost:5000/nft',
-                  type: 'POST',
-                  data: data,
-                  success: function (response) {
-                     console.log("flask successfully processed the mint NFT request")
-                     console.log(response)
-                  },
-                  error: function (response) {
-                     console.log("flask successfully processed the mint NFT request")
-                     console.log(response)
-                  }
-            });
+            xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+            xhttp.setRequestHeader("Accept", "application/json");
+
+            xhttp.onreadystatechange = function() {
+               if (xhttp.readyState === 4 && xhttp.status === 200) {
+                  // document.getElementById("demo").innerHTML = this.responseText;
+                  alert(xhttp.response);
+                  console.log(xhttp.responseText);
+               } else {
+                  console.log("Minting NFT...");
+               }
+            };
+
+            console.log(typeof data);
+
+            xhttp.send(data);
+
+            // $.ajax({
+            //       url: 'http://localhost:5000/nft',
+            //       type: 'POST',
+            //       data: data,
+            //       success: function (response) {
+            //          console.log("flask successfully processed the mint NFT request")
+            //          console.log(response)
+            //       },
+            //       error: function (response) {
+            //          console.log("flask failed to process the mint NFT request")
+            //          console.log(response)
+            //       }
+            // });
          }
      
      </script>
 
-     <section class="nft_details">
-      <h2><b>Minted NFT Details</b></h2>
+     <section class="nft_details" id="result">
+      <h2 class="subtitle" style="margin-top: 0.8rem;"><b>Minted NFT Details:</b></h2>
       <p>Issuer addr: {{ data.issuer_addr }}</p>
       <p><a href="{{ data.issuer_explorer }}">explorer link</a>  ( {{ data.issuer_explorer }} )</p>
       
