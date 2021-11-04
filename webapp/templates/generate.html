@@ -1,18 +1,89 @@
+<!DOCTYPE html>
 <html>
-   
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>XRP NFT Creation</title>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+   </head>
+
    <body>
-      <p>Details for {{data.title}}</p>
+      <h2>Details for {{data.title}}</h2>
       <!-- <img src="localhost:8080{{file.file.url}}" class="image_responsive" > -->
 
       <!-- {% csrf_token %} -->
       <!-- <iframe src="{{file.file.url}}" style="width: 100%;height: 100%;border: none;"></iframe> -->
       <embed src="{{data.file.url}}" type="application/pdf"   height="300" width="300"> 
+      <!-- <iframe class="responsive-iframe" src="{{data.file.url}}"></iframe> -->
         <!-- or try 700 and 500, or 100% -->
-      <p>local URI: {{ data.file.url }}</p>
-      <p>IPFS Image hash: {{ data.file_hash }}</p>
-      <p>IPFS Image URI: {{ data.file_uri }}</p>
-      <p>IPFS Metadata URI: {{ data.metadata_uri }}</p>
-      <p>Metadata: {{ data.collectible_metadata }}</p>
+
+      <section class = "ipfs_details">
+         <p><a href="{{ data.file.url }}">local Image URI:</a></p>
+         <h3><b>IPFS Details</b></h3>
+         <p>IPFS Image hash: {{ data.file_hash }}</p>
+         <!-- <p>IPFS Image URI: {{ data.file_uri }}</p> -->
+         <p><a href="{{ data.file_uri }}">IPFS Image URI</a> ({{ data.file_uri }})</p>
+         <p><a href="{{ data.metadata_uri }}">IPFS Metadata URI</a> ({{ data.metadata_uri }})</p>
+         <h3><b>Metadata:</b> </h3>
+         <p>{{ data.collectible_metadata }}</p>
+      </section>
+
+      <!-- <input type="submit" value = "Mint NFT"> or use button instead -->
+
+      <!-- <button><a href="/create/mint">Mint NFT</a></button> -->
+
+      <h3>Looks good? Let's mint the NFT</h3>
+      {% csrf_token %}
+      <input type="submit" value="Mint NFT" onclick="submit()">
+      <script type="text/javascript">
+         function submit() {
+            var data = JSON.parse("{{data.collectible_metadata|escapejs}}");
+            console.log("Mint NFT button clicked with data ", data)
+            window.location.replace('http://127.0.0.1:8000/create/mint');
+            // TODO: instead of redirect: append the data
+
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+               if (xhr.readyState === 4) {
+                  alert(xhr.response);
+               }
+            }
+            xhr.open('POST', 'http://127.0.0.1:8000/create/mint', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+            xhr.send(data);
+
+            //=======
+
+            const name = document.getElementById("name_").innerHTML
+
+            $.ajax({
+                  url: 'http://localhost:5000/nft',
+                  type: 'POST',
+                  data: data,
+                  success: function (response) {
+                     console.log("flask successfully processed the mint NFT request")
+                     console.log(response)
+                  },
+                  error: function (response) {
+                     console.log("flask successfully processed the mint NFT request")
+                     console.log(response)
+                  }
+            });
+         }
+     
+     </script>
+
+     <section class="nft_details">
+      <h2><b>Minted NFT Details</b></h2>
+      <p>Issuer addr: {{ data.issuer_addr }}</p>
+      <p><a href="{{ data.issuer_explorer }}">explorer link</a>  ( {{ data.issuer_explorer }} )</p>
+      
+      <p>Distributor addr: {{ data.distributor_addr }}</p>
+      <p><a href="{{ data.distributor_explorer }}">explorer link</a>  ( {{ data.distributor_explorer }} )</p>
+
+      <p><a href="{{ data.issued_token_link }}">Issued NFT transaction</a> ({{ data.issued_token_link }} )</p>
+     </section>
    </body>
    
 </html>

@@ -11,6 +11,8 @@ urlpatterns = [
     path('hello/<int:number>', helloNum, name = 'helloNum'),
     path('today/', today, name='today'),
     path('create/', create, name='create'),
+    path('create/mint', mint, name='mint'),
+    # path('create/mint', mintData, name='mint'),
 ]
 
 if settings.DEBUG:

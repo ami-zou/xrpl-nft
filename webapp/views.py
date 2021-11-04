@@ -7,6 +7,8 @@ from .models import *
 from webapp.helpers import ipfs
 from webapp.helpers import xrpl
 
+import json
+
 # Create your views here.
 
 # General setup
@@ -42,7 +44,8 @@ def create(request):
             data = ipfs.write_metadata(file)
 
             # STEP TWO: mint XRP NFT
-            data = xrpl.mint_nft(data)
+            # TODO: figure out how to do this
+            # data = xrpl.mint_nft(data)
             return render(request, "generate.html", {'data' : data})
     else:
         form = UploadFileForm()
@@ -53,5 +56,20 @@ def create(request):
     #return render(request, 'books_website/UploadBook.html', context)
 
     return render(request, "create.html", context)
+
+def mint(request):
+    print("mintData is called ")
+    context = {}
+    if request.method == 'POST':
+        print("post request")
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        #content = body['content']
+        print(body)
+        data = body
+        #TODO: call mint nft 
+        context.data = data
+        
+    return render(request, "mintnft.html", context)
 
         

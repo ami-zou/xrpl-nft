@@ -1,14 +1,12 @@
+import utils
 import logging
-from .utils import to_sha1
-from .utils import memo_to_hex
-from .utils import get_explorer_addr
-logging.basicConfig(level=logging.INFO)
 import xrpl
 from xrpl.wallet import generate_faucet_wallet
+logging.basicConfig(level=logging.INFO)
 
 NFT_QUANTITY = "1000000000000000e-96"
 
-def mint_nft(data):
+def issue_nft(data):
     title = data.title
     metadata_uri = data.metadata_uri
     logging.info("Minting NFT for title {} and metadata_uri {}".format(title, metadata_uri))
@@ -18,19 +16,23 @@ def mint_nft(data):
     META_URL = data.metadata_uri #"https://ipfs.io/ipfs/QmUj4fM1ro9gA1VNZwaPqB57zgURbRjQwS9nkA2hBxqLXD?filename=xrp.json"
 
     # Compute the variables ----
-    FILE_HASH_SHA = to_sha1(FILE_HASH)
-    MEMO_DATA_HEX = memo_to_hex(FILE_URL, META_URL)
+    
+    FILE_HASH_SHA = utils.to_sha1(FILE_HASH)
+    #META_HEX = "68747470733a2f2f697066732e696f2f697066732f516d556a34664d31726f39674131564e5a776150714235377a67555262526a517753396e6b4132684278714c58443f66696c656e616d653d7872702e6a736f6e"
+    #MEMO_DATA_HEX = "7B0A202020202246696C65223A202268747470733A2F2F697066732E696F2F697066732F516D50563178346F78783937377750524258574D584473763844463952586175785668456E6A47726B57476850513F66696C656E616D653D7872702E706E67222C0A20202020224D65746164617461223A202268747470733A2F2F697066732E696F2F697066732F516D556A34664D31726F39674131564E5A776150714235377A67555262526A517753396E6B4132684278714C58443F66696C656E616D653D7872702E6A736F6E220A7D"
+    MEMO_DATA_HEX = utils.memo_to_hex(FILE_URL, META_URL)
+    #MEMO_TYPE_HEX = bytes.hex("NFT Details".encode("ASCII")).upper()
 
-    issuer_addr = "Not set"
-    issuer_explorer ="Not set"
-    distributor_addr = "Not set"
-    distributor_explorer = "Not set"
-    issued_token_link = "Not set"
+    issuer_addr = ""
+    issuer_explorer =""
+    distributor_addr = ""
+    distributor_explorer = ""
+    issued_token_link = ""
 
     # Connect ----------------------------------------------------------------------
+    
     testnet_url = "https://s.altnet.rippletest.net:51234"
     client = xrpl.clients.JsonRpcClient(testnet_url)
-
 
     # STEP ONE: Get credentials from the Testnet Faucet --------------------------------------
     # For production, instead create a Wallet instance
@@ -38,11 +40,11 @@ def mint_nft(data):
     print("\nGetting 2 new accounts from the Testnet faucet...")
     cold_wallet = generate_faucet_wallet(client, debug=True)
     issuer_addr = cold_wallet.classic_address
-    issuer_explorer = get_explorer_addr(issuer_addr)
+    issuer_explorer = utils.get_explorer_addr(issuer_addr)
     print(f"cold/issuer wallet classic address {cold_wallet.classic_address}, seed {cold_wallet.seed}, and sequence {cold_wallet.sequence}")
     hot_wallet = generate_faucet_wallet(client, debug=True)
     distributor_addr = hot_wallet.classic_address
-    distributor_explorer = get_explorer_addr(distributor_addr)
+    distributor_explorer = utils.get_explorer_addr(distributor_addr)
     print(f"hot/distributer wallet classic address {hot_wallet.classic_address}, seed {hot_wallet.seed}, and sequence {hot_wallet.sequence}")
 
 
@@ -80,6 +82,10 @@ def mint_nft(data):
 
 
     # STEP TWO: Create trust line from hot to cold address -----------------------------------
+    # currency_code = "FOO"
+    # currency_code = "QmUj4fM1ro9gA1VNZwaPqB57zgURbRjQwS9nkA2hBxqLXD"
+    # currency_code = "fd5fce11f002fea1dcc4c8aa492a1ae68590b4d5"
+    # currency_code = "0158415500000000C1F76FF6ECB0BAC600000000"
     currency_code = FILE_HASH_SHA #"fd5fce11f002fea1dcc4c8aa492a1ae68590b4d5".upper()
     trust_set_tx = xrpl.models.transactions.TrustSet(
         account=hot_wallet.classic_address,

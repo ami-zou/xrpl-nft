@@ -7,14 +7,14 @@ import hashlib
 def to_sha1(input):
     h = hashlib.sha1(input.encode('utf-8'))
     output = h.hexdigest().upper()
-    print(output)
+    print("\n SHA1 value: ",output)
     print("output length ", len(output))
     return output
 
 def to_hex(input_string):
-    print("\n", input_string)
+    print("\n input data:", input_string)
     output_hex = input_string.encode('utf-8').hex().upper()
-    print("\n", output_hex)
+    print("\n HEX output data:", output_hex)
     return output_hex
 
 

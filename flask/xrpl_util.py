@@ -8,6 +8,18 @@ from xrpl.wallet import generate_faucet_wallet
 
 NFT_QUANTITY = "1000000000000000e-96"
 
+def test_mint_nft():
+    data = {
+        "file_url" : "https://ipfs.io/ipfs/QmPV1x4oxx977wPRBXWMXDsv8DF9RXauxVhEnjGrkWGhPQ?filename=xrp.png",
+        "file_hash" : "QmUj4fM1ro9gA1VNZwaPqB57zgURbRjQwS9nkA2hBxqLXD",
+        "metadata_uri" : "https://ipfs.io/ipfs/QmUj4fM1ro9gA1VNZwaPqB57zgURbRjQwS9nkA2hBxqLXD?filename=xrp.json"
+    }
+
+    minted_data = mint_nft(data)
+
+    return minted_data
+
+
 def mint_nft(data):
     title = data.title
     metadata_uri = data.metadata_uri
