@@ -1,4 +1,4 @@
-# XRP NFT
+# XRP NFT Project Overview
 
 ## Upload a file and related metadata directly to IPFS
 * run an IPFS node locally
@@ -20,3 +20,22 @@
   * and the other for the metadata
   
   
+# Run the project
+
+## Spin up a local IPFS node
+Once downloaded `go-ipfs`, run `$ ipfs daemon`, and make sure http://127.0.0.1:5001/webui has info
+
+## Run the python project
+Go to project root, and run `$ python manage.py runserver`
+
+## Run the flask server
+Go to `/Flask` directory, and run `$ python server.py`
+
+## Hit the endpoints
+`http://127.0.0.1:8000/create/` (http://127.0.0.1:8000/create/)
+* provide details for the file, and upload the file
+
+* observe logs in backend servers for uploading everything to IPFS, and then minting the NFT on XRPL
+  * there are ~5 calls/transactions being made on the ledger. Each transaction takes 4-7 seconds, and in total about 20 - 30 sec to mint the NFT
+
+* refresh the redirected page to see all the NFT details 
